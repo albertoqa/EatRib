@@ -7,8 +7,4 @@ block content
         h1= title
   .row
     .col-md-6.col-sm-12
-      p
-        | EatRib was created to help people find places to eat good food and drink cold sider.
-        | <br /><br />
-        | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sed lorem ac nisi dignissim accumsan.
-        
+      p !{(content).replace(/\n/g, '<br/>')}
