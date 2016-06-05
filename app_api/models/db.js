@@ -25,6 +25,7 @@ mongoose.connection.on('disconnected', function() {
 shutdownDB = function(msg, callback) {
   mongoose.connection.close(function() {
     console.log('Mongoose disconnected through ' + msg);
+    callback();
   });
 };
 
