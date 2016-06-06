@@ -9,33 +9,7 @@ if(process.env.NODE_ENV === 'production') {
 
 /* GET home page */
 module.exports.homeList = function(req, res) {
-  var requestOptions, path;
-  path = '/api/locations';
-  requestOptions = {
-    url : apiOptions.server + path,
-    method : "GET",
-    json: {},
-    qs : {
-      lng : -5.0686727,
-      lat : 43.4618896,
-      maxdist: 100000000
-    }
-  };
-  console.log("Creating request", requestOptions);
-
-  request(
-    requestOptions,
-    function(err, response, body) {
-      var i, data;
-      data = body;
-      if(response.statusCode === 200 && data.length) {
-        for(i=0; i<data.length; i++) {
-          data[i].distance = _formatDistance(data[i].distance);
-        }
-      }
-      renderHomePage(req, res, data);
-    }
-  );
+  renderHomePage(req, res);
 };
 
 var _formatDistance = function(distance) {
@@ -50,16 +24,7 @@ var _formatDistance = function(distance) {
   return numDistance + unit;
 };
 
-var renderHomePage = function(req, res, responseBody) {
-  var message;
-  if(!(responseBody instanceof Array)) {
-    message = "API lookup error";
-    responseBody = [];
-  } else {
-    if(!responseBody.length) {
-      message = "No places found nearby";
-    }
-  }
+var renderHomePage = function(req, res) {
   res.render('locations-list', {
     title: 'EatRib - find a place to eat and drink',
     pageHeader: {
@@ -67,8 +32,6 @@ var renderHomePage = function(req, res, responseBody) {
       strapline: 'Find places to eat near you in Ribadesella'
     },
     sidebar: 'Looking for a place to drink and eat in Ribadesella? EatRib helps you find places to have fun and eat premium quality food. Perhaps with sider, beer or coffe? Let EatRib help you find the place you\'re looking for.',
-    locations: responseBody,
-    message: message
   });
 };
 
