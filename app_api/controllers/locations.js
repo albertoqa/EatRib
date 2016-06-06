@@ -1,17 +1,20 @@
 var mongoose = require('mongoose');
 var loc = mongoose.model('Location');
 
-var theEarth = (function(){
-  var earthRadius = 6371; // km, miles is 3959
+var theEarth = (function() {
+  var earthRadius = 6371;
+
   var getDistanceFromRads = function(rads) {
     return parseFloat(rads * earthRadius);
   };
+
   var getRadsFromDistance = function(distance) {
     return parseFloat(distance / earthRadius);
   };
+
   return {
-    getDistanceFromRads : getDistanceFromRads,
-    getRadsFromDistance : getRadsFromDistance
+    getDistanceFromRads: getDistanceFromRads,
+    getRadsFromDistance: getRadsFromDistance
   };
 })();
 
@@ -54,21 +57,18 @@ module.exports.locationsListByDistance = function(req, res) {
   var lng = parseFloat(req.query.lng);
   var lat = parseFloat(req.query.lat);
   var maxDist = 20;
-  var geoOptions;
   if(req.query.maxdist) {
     maxDist = parseFloat(req.query.maxdist);
   }
 
-  console.log('maxDist', maxDist);
-
-  geoOptions = {
-    spherical: true,
-    maxDistance: theEarth.getRadsFromDistance(maxDist),
-    num: 10
-  };
   var point = {
     type: "Point",
     coordinates: [lng, lat]
+  };
+  var geoOptions = {
+    spherical: true,
+    maxDistance: maxDist * 1000,
+    num: 10
   };
 
   if((!lng && lng !== 0) || (!lat && lat !== 0)) {
@@ -80,6 +80,7 @@ module.exports.locationsListByDistance = function(req, res) {
 
   loc.geoNear(point, geoOptions, function(err, results, stats) {
     var locations;
+    
     if (err) {
       console.log('geoNear error:', err);
       sendJSONResponse(res, 404, err);
@@ -91,11 +92,10 @@ module.exports.locationsListByDistance = function(req, res) {
 };
 
 var buildLocationList = function(req, res, results, stats) {
-  console.log("Building...");
   var locations = [];
   results.forEach(function(doc) {
     locations.push({
-      distance: theEarth.getDistanceFromRads(doc.dis),
+      distance: doc.dis,
       name: doc.obj.name,
       address: doc.obj.address,
       rating: doc.obj.rating,
