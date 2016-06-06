@@ -55,9 +55,11 @@ module.exports.locationsListByDistance = function(req, res) {
   var lat = parseFloat(req.query.lat);
   var maxDist = 20;
   var geoOptions;
-  if(req.query.maxdis) {
+  if(req.query.maxdist) {
     maxDist = parseFloat(req.query.maxdist);
   }
+
+  console.log('maxDist', maxDist);
 
   geoOptions = {
     spherical: true,
@@ -69,7 +71,7 @@ module.exports.locationsListByDistance = function(req, res) {
     coordinates: [lng, lat]
   };
 
-  if(!lng || !lat) {
+  if((!lng && lng !== 0) || (!lat && lat !== 0)) {
     sendJSONResponse(res, 404, {
       "message": "lng and lat query parameters are required"
     });
@@ -109,6 +111,7 @@ module.exports.locationsReadOne = function(req, res) {
     loc
       .findById(req.params.locationid)
       .exec(function(err, location) {
+        console.log(location);
         if(!location) {
           sendJSONResponse(res, 404, {
             "message": "locationid not found"
@@ -176,5 +179,24 @@ module.exports.locationsUpdateOne = function(req, res) {
 
 
 module.exports.locationsDeleteOne = function(req, res) {
-  sendJSONResponse(res, 200, {"status" : "success"});
+  var locationid = req.params.locationid;
+  if (locationid) {
+    loc
+      .findByIdAndRemove(locationid)
+      .exec(
+        function(err, location) {
+          if (err) {
+            console.log(err);
+            sendJSONresponse(res, 404, err);
+            return;
+          }
+          console.log("Location id " + locationid + " deleted");
+          sendJSONresponse(res, 204, null);
+        }
+    );
+  } else {
+    sendJSONresponse(res, 404, {
+      "message": "No locationid"
+    });
+  }
 };
