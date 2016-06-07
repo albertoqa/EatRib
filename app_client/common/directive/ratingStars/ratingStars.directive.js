@@ -1,13 +1,17 @@
-angular
-  .module('eatribApp')
-  .directive('ratingStars', ratingStars);
+(function () {
 
-function ratingStars () {
-  return {
-    restrict : 'EA',
-    scope: {
-      thisRating : '=rating'
-    },
-    templateUrl : '/common/directive/ratingStars/ratingStars.template.html'
-  };
-}
+  angular
+    .module('eatribApp')
+    .directive('ratingStars', ratingStars);
+
+  function ratingStars () {
+    return {
+      restrict : 'EA',
+      scope: {
+        thisRating : '=rating'
+      },
+      templateUrl : '/common/directive/ratingStars/ratingStars.template.html'
+    };
+  }
+
+})();
