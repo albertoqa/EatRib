@@ -4,7 +4,7 @@
     .module('eatribApp')
     .controller('homeCtrl', homeCtrl);
 
-
+  homeCtrl.$inject = ['$scope', 'eatribData', 'geolocation'];
   function homeCtrl ($scope, eatribData, geolocation) {
     var vm = this;
     vm.pageHeader = {
