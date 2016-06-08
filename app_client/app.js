@@ -1,6 +1,6 @@
 (function () {
 
-  angular.module('eatribApp', ['ngRoute', 'ngSanitize']);
+  angular.module('eatribApp', ['ngRoute', 'ngSanitize', 'ui.bootstrap']);
 
   function config ($routeProvider, $locationProvider) {
     $routeProvider
