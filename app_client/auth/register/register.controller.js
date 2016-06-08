@@ -22,6 +22,7 @@
 
     vm.onSubmit = function () {
       vm.formError = "";
+
       if (!vm.credentials || !vm.credentials.name || !vm.credentials.email || !vm.credentials.password) {
         vm.formError = "All fields required, please try again";
         return false;
@@ -32,6 +33,7 @@
 
     vm.doRegister = function() {
       vm.formError = "";
+
       authentication
         .register(vm.credentials)
         .error(function(err){

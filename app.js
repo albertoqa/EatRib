@@ -38,6 +38,7 @@ var appClientFiles = [
   'app_client/common/directive/ratingStars/ratingStars.directive.js',
   'app_client/common/directive/footerGeneric/footerGeneric.directive.js',
   'app_client/common/directive/navigation/navigation.directive.js',
+  'app_client/common/directive/navigation/navigation.controller.js',
   'app_client/common/directive/pageHeader/pageHeader.directive.js'
 ];
 
