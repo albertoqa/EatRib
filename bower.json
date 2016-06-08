@@ -1,0 +1,20 @@
+{
+  "name": "EatRiba",
+  "description": "Find places to eat and drink in Ribadesella",
+  "main": "app.js",
+  "authors": [
+    "Alberto Quesada <qa.alberto@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/albertoqa/EatRib",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-sanitize": "^1.5.6"
+  }
+}
