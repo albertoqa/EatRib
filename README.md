@@ -11,7 +11,7 @@ Find nearby places to eat and drink in Ribadesella.
 
 Then change into the folder the git clone command will create:
 
-`$ cd getting-MEAN`
+`$ cd EatRib`
 
 And finally install the dependencies:
 
