@@ -4,8 +4,8 @@
     .module('eatribApp')
     .service('eatribData', eatribData);
 
-  eatribData.$inject = ['$http'];
-  function eatribData ($http) {
+  eatribData.$inject = ['$http', 'authentication'];
+  function eatribData ($http, authentication) {
     var locationByCoords = function(lat, lng) {
       return $http.get('/api/locations?lng=' + lng + '&lat=' + lat + '&maxdist=2000000');
     };
@@ -15,7 +15,11 @@
     };
 
     var addReviewById = function (locationid, data) {
-      return $http.post('/api/locations/' + locationid + '/reviews' , data);
+      return $http.post('/api/locations/' + locationid + '/reviews', data, {
+        headers: {
+          Authorization: 'Bearer '+ authentication.getToken()
+        }
+      });
     };
 
     return {

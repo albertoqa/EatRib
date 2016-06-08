@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var loc = mongoose.model('Location');
+var User = mongoose.model('User');
 
 var sendJSONResponse = function(res, status, content) {
   res.status(status);
@@ -7,22 +8,23 @@ var sendJSONResponse = function(res, status, content) {
 }
 
 module.exports.reviewsCreate = function(req, res) {
-  getAuthor(req, res, function(req, res, userName) {
+  console.log("Reviewing");
+  getAuthor(req, res, function (req, res, userName) {
     if (req.params.locationid) {
-        loc
-          .findById(req.params.locationid)
-          .select('reviews')
-          .exec(
-            function(err, location) {
-              if (err) {
-                sendJSONresponse(res, 400, err);
-              } else {
-                doAddReview(req, res, location);
-              }
+      loc
+        .findById(req.params.locationid)
+        .select('reviews')
+        .exec(
+          function(err, location) {
+            if (err) {
+              sendJSONResponse(res, 400, err);
+            } else {
+              doAddReview(req, res, location, userName);
             }
-        );
+          }
+      );
     } else {
-      sendJSONresponse(res, 404, {
+      sendJSONResponse(res, 404, {
         "message": "Not found, locationid required"
       });
     }

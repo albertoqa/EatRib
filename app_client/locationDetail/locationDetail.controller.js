@@ -4,11 +4,13 @@
     .module('eatribApp')
     .controller('locationDetailCtrl', locationDetailCtrl);
 
-    locationDetailCtrl.$inject = ['$routeParams', '$uibModal', 'eatribData'];
-    function locationDetailCtrl ($routeParams, $uibModal, eatribData) {
+    locationDetailCtrl.$inject = ['$routeParams', '$location', '$uibModal', 'eatribData', 'authentication'];
+    function locationDetailCtrl ($routeParams, $location, $uibModal, eatribData, authentication) {
       var vm = this;
       vm.locationid = $routeParams.locationid;
-
+      vm.isLoggedIn = authentication.isLoggedIn();
+      vm.currentPath = $location.path();
+      
       eatribData.locationById(vm.locationid)
         .success(function(data) {
           vm.data = { location: data };
