@@ -30,5 +30,8 @@ tmp
 .DS_Store
 .sass-cache
 
+# Environment variables
+.env
+
 # App
 # public
